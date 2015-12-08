@@ -7,18 +7,10 @@
 #include <list>
 #include <algorithm>
 #include <stdlib.h>
-//#include "Grid.h"
-//#include "Actor.h"
-//#include "Tree.h"
-//#include "Tree2.h"
-//#include <iterator>
 
 using namespace std;
 
-//class Board;
-
-#define SEARCH_DEPTH 5
-//#define MAX_DEPTH 5	
+#define SEARCH_DEPTH 5	
 
 struct Move
 {
@@ -41,18 +33,14 @@ private:
 	int x1, y1, x2, y2;
 	int team;
 	int depth;
-	//int moveList[MAX_DEPTH][4];//the movelist stores moves for every state we traverse through
 	char mycolor;
 	vector<string> color;
 	vector<string> board;
 	int getTeam();
-	//vector<string> scores;
 	bool CanMove(int, int, int, int);
 	int * traversetree();
 	Move search(int team, int depth, int & val, int alpha, int beta);
-	//int Move(int, int, int, int);
 	int point();
-	//void moveStore(int, int, int, int);
 	int Evaluation(int, int, int, int);
 	bool inDanger(int, int, vector<string>, int);
 	int threat(int, int, vector<string>, int);
@@ -179,7 +167,6 @@ Move Stratego::search(int team, int depth, int & val, int alpha, int beta)
 	{
 		state.push_back(board[i]);
 	}
-	//Grid* state;
 	// if we've reached our max depth we return the value of the state and NULL for the move
 	if (depth == SEARCH_DEPTH + 1)
 	{
@@ -358,9 +345,6 @@ Move Stratego::search(int team, int depth, int & val, int alpha, int beta)
 
 int Stratego::Evaluation(int x1, int y1, int x2, int y2)
 {
-
-	//pair<char, int>points;
-
 	//determines where our flag is so that we can account for threat if piece is on our side
 	int ourflagY = 0;
 	for (int i = 0; i < 10; i++)
@@ -460,14 +444,14 @@ bool Stratego::inDanger(int x, int y, vector<string> colour, int val)
 	if (board[x - 1][y] == 'F') val1 = 11;
 	if (board[x - 1][y] == 'S') val1 = 10;
 	if (x > 0 && board[x - 1][y] &&
-		/*state->getActor(x - 1, y)->getTeam() != team*/colour[x - 1][y] != color[x][y] && val1 <= val && board[x - 1][y] != 'B')
+		colour[x - 1][y] != color[x][y] && val1 <= val && board[x - 1][y] != 'B')
 		return true;
 	val1 = atoi(&board[x + 1][y]);
 	if (board[x + 1][y] == 'B') val1 = 0;
 	if (board[x + 1][y] == 'F') val1 = 11;
 	if (board[x + 1][y] == 'S') val1 = 10;
 	if (x < 9 && board[x + 1][y] &&
-		/*state->getActor(x + 1, y)->getTeam() != team*/ colour[x + 1][y] != color[x][y] && /*state->getActor(x + 1, y)->getType()*/val1 <= val && /*state->getActor(x + 1, y)->getType()>0*/board[x + 1][y] != 'B')
+		colour[x + 1][y] != color[x][y] && val1 <= val && board[x + 1][y] != 'B')
 		return true;
 	val1 = atoi(&board[x][y - 1]);
 	if (board[x][y - 1] == 'B') val1 = 0;
@@ -501,7 +485,7 @@ int Stratego::threat(int x, int y, vector<string> colour, int flagplace)
 	if (board[x - 1][y] == 'S') val1 = 10;
 
 	if (x > 0 && board[x - 1][y] && colour[x - 1][y] == color[x - 1][y] && val1 >= val && board[x - 1][y] != 'B')
-		t += 10 - /*state->getActor(x - 1, y)->getType();*/val1;
+		t += 10 - val1;
 	val1 = atoi(&board[x - 1][y]);
 	if (board[x + 1][y] == 'B') val1 = 0;
 	if (board[x + 1][y] == 'F') val1 = 11;
@@ -538,10 +522,6 @@ int Stratego::threat(int x, int y, vector<string> colour, int flagplace)
 
 void Stratego::Play(int & x1, int & y1, int & x2, int & y2)
 {
-	//vector<pair<int, int>> source;
-	//vector< pair<int, int> >::iterator it;
-	//vector<pair<int, int>> destination;
-	//pair<pair<int, int>, int>bestMove;
 	Move m;
 
 	int v = point();
